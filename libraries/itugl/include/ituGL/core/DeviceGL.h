@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ituGL/core/Color.h>
 #include <glad/glad.h>
 
 class Window;
@@ -32,8 +33,24 @@ public:
     void PollEvents();
 
     // Clear the framebuffer with the specified color
-    void Clear(float r, float g, float b, float a);
+    inline void Clear(const Color& color) { Clear(true, color, false, 0.0, false, 0); }
+    // Clear the framebuffer with the specified color and depth
+    inline void Clear(bool clearColor, const Color& color, bool clearDepth, GLdouble depth) { Clear(clearColor, color, clearDepth, depth, false, 0); }
+    // Clear the framebuffer with the specified color, depth and stencil
+    void Clear(bool clearColor, const Color& color, bool clearDepth, GLdouble depth, bool clearStencil, GLint stencil);
 
+    // Get if a feature is enabled
+    bool IsFeatureEnabled(GLenum feature) const;
+    // enable / disable a feature
+    void SetFeatureEnabled(GLenum feature, bool enabled);
+    inline void EnableFeature(GLenum feature) { SetFeatureEnabled(feature, true); }
+    inline void DisableFeature(GLenum feature) { SetFeatureEnabled(feature, false); }
+
+    // enable / disable wireframe mode
+    void SetWireframeEnabled(bool enabled);
+
+    // enable / disable v-sync
+    void SetVSyncEnabled(bool enabled);
 private:
     // Has a context been loaded? We use the context of the current window
     bool m_contextLoaded;
