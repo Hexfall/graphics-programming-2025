@@ -23,6 +23,16 @@ VertexArrayObject::~VertexArrayObject()
     glDeleteVertexArrays(1, &handle);
 }
 
+VertexArrayObject::VertexArrayObject(VertexArrayObject&& vao) noexcept : Object(std::move(vao))
+{
+}
+
+VertexArrayObject& VertexArrayObject::operator = (VertexArrayObject&& vao) noexcept
+{
+    Object::operator=(std::move(vao));
+    return *this;
+}
+
 // Bind the vertex array handle to the specific target
 void VertexArrayObject::Bind() const
 {
@@ -59,7 +69,14 @@ void VertexArrayObject::SetAttribute(GLuint location, const VertexAttribute& att
     pointer += offset;
 
     // Set the VertexAttribute pointer in this location
-    glVertexAttribPointer(location, components, type, normalized, stride, pointer);
+    if (attribute.IsFloatingPoint() || attribute.IsNormalized())
+    {
+        glVertexAttribPointer(location, components, type, normalized, stride, pointer);
+    }
+    else
+    {
+        glVertexAttribIPointer(location, components, type, stride, pointer);
+    }
 
     // Finally, we enable the VertexAttribute in this location
     glEnableVertexAttribArray(location);
