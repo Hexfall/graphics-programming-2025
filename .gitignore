@@ -1,4 +1,6 @@
 ﻿.vs
+.idea
+cmake-build-debug
 out
 build
 *.ini
