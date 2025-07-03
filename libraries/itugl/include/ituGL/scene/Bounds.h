@@ -117,7 +117,7 @@ private:
 template<typename T>
 bool Bounds::Intersects(const T& other) const
 {
-    Bounds::Intersects(this, other);
+    return Bounds::Intersects(this, other);
 }
 
 template<typename TA, typename TB>
