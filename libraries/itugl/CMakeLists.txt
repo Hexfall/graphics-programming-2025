@@ -1,4 +1,4 @@
-set(libraries glad glfw ${APPLE_LIBRARIES})
+set(libraries glad glfw imgui ${APPLE_LIBRARIES})
 
 SET(target_inc "")
 FILE(GLOB subdirectories RELATIVE ${CMAKE_CURRENT_LIST_DIR}/include/ituGL ${CMAKE_CURRENT_LIST_DIR}/include/ituGL/*)
